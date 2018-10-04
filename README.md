@@ -1,6 +1,6 @@
 # php-csv
 
-include "php-csv.php";
+include "csv.php";
 
 $csv = new csv(file_get_contents("filename.csv"));
 
