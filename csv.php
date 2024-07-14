@@ -4,12 +4,12 @@
 	{
 
 		private $m_csv;
-
 		private $m_count;
-
 		private $m_index;
-
 		private $m_rows;
+
+		public $delimiter = ',';
+		public $quote = '"';
 
 		private function row()
 		{
@@ -18,31 +18,31 @@
 			while ($this->m_index < $this->m_count)
 			{
 				$character = $this->m_csv[$this->m_index++];
-				if ($character == '"')
+				if ($character == $this->quote)
 				{
 					while ($this->m_index < $this->m_count)
 					{
 						$character = $this->m_csv[$this->m_index++];
-						if ($character == '"')
+						if ($character == $this->quote)
 						{
 							/*
-							 * If a double quote is found in a double quoted column then the following character must be:
+							 * If a double quote is found in a double-quoted column then the following character must be:
 							 *
 							 *   - A double quote which is the second character of an escaped double quote.
 							 *   - A comma which is the end of the column.
-							 *   - A CR, CR LF or LF which is the end of the column and the end of the row.
-							 *   - An EOF which is the end of the column, the end of the row and the end of the file.
+							 *   - A CR, CR LF, or LF which is the end of the column and the end of the row.
+							 *   - An EOF which is the end of the column, the end of the row, and the end of the file.
 							 *
 							 * Anything else is an error.
 							 */
 							if ($this->m_index < $this->m_count)
 							{
 								$character = $this->m_csv[$this->m_index++];
-								if ($character == '"')
+								if ($character == $this->quote)
 								{
 									$column .= $character;
 								}
-								else if ($character == ',')
+								else if ($character == $this->delimiter)
 								{
 									$row[] = $column;
 									$column = '';
@@ -91,7 +91,7 @@
 				{
 					while (true)
 					{
-						if ($character == ',')
+						if ($character == $this->delimiter)
 						{
 							$row[] = $column;
 							$column = '';
